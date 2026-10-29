@@ -1,0 +1,2 @@
+-- Hệ thống dùng SQLAlchemy tự tạo bảng. File này mô tả các bảng chính cho triển khai MySQL/PostgreSQL.
+-- users, pets, care_records, care_schedules, invoices, notifications, ai_chats
