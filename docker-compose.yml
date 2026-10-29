@@ -1,17 +1,30 @@
+﻿name: pet-care-ai
+
 services:
   pet-care-ai:
     build:
       context: .
       dockerfile: Dockerfile
+
+    container_name: pet-care-ai
+
     ports:
       - "8000:8000"
+
     env_file:
       - .env
+
     environment:
       DATABASE_URL: sqlite:///./pet_care.db
+
     volumes:
       - ./pet_care.db:/app/pet_care.db
+
+    networks:
+      - pet-care-network
+
     restart: unless-stopped
+
     healthcheck:
       test:
         - CMD
@@ -22,3 +35,24 @@ services:
       timeout: 5s
       retries: 3
       start_period: 15s
+
+    init: true
+
+    security_opt:
+      - no-new-privileges:true
+
+    cap_drop:
+      - ALL
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+
+networks:
+  pet-care-network:
+    driver: bridge
